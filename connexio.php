@@ -1,0 +1,5 @@
+<?php 
+function connectTODB($db){
+   ;
+}
+?>
