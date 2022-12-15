@@ -1,5 +1,5 @@
 <?php
-function connectTODB($db){
+function connectToDB($db){
    ;
 }
 ?>
