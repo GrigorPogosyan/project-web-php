@@ -1,5 +1,5 @@
 <?php
-$dbHost="localhost";
+$dbHost="127.0.0.1";
 $dbNom="estadistiques";
 $dbUsuari="user";
 $dbPassword="aplicacions";

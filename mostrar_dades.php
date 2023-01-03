@@ -9,6 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 </head>
 
 <body>
@@ -42,12 +43,81 @@
                             echo "</tr>";
                         }
                     }
+                    function temperaturaDiaActual() {
+                        include 'database/connexio.php';
+                        $preparacio = $connexio ->prepare('SELECT MAX(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
+                        $preparacio->execute();
+                        echo "<table>";
+                        while ($resultats = $preparacio ->fetch()){
+                            echo "<tr>";
+                            echo "<td>Temperatura més alta del dia</td>";
+                            echo "<td>" . $resultats['temperatura'] . "</td>";
+                            echo "</tr>";
+                        $preparacio = $connexio ->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
+                        $preparacio->execute();
+                        echo "<table>";
+                        while ($resultats = $preparacio ->fetch()){
+                            echo "<tr>";
+                            echo "<td>Temperatura més baixa del dia</td>";
+                            echo "<td>" . $resultats['temperatura'] . "</td>";
+                            echo "</tr>";
+                            }
+                        }
+                    }
+                    function mitjaHumitatDiaActual() {
+                        include 'database/connexio.php';
+                        $preparacio = $connexio ->prepare('SELECT AVG(mitjana_humitat) as mitjana_humitat FROM dades WHERE data = cast(Date(Now()) as Date);');
+                        $preparacio->execute();
+                        echo "<table>";
+                        while ($resultats = $preparacio ->fetch()){
+                            echo "<tr>";
+                            echo "<td>Mitjana Humitat del dia actual:</td>";
+                            echo "<td>" . $resultats['mitjana_humitat'] . "</td>";
+                            echo "</tr>";
+                        }
+                    }
+                    function temperaturaAltaIBaixaAny() {
+                        include 'database/connexio.php';
+                        $preparacio = $connexio ->prepare('SELECT MAX(temperatura) as temperatura FROM dades WHERE year(data) = year(Now());');
+                        $preparacio->execute();
+                        echo "<table>";
+                        while ($resultats = $preparacio ->fetch()){
+                            echo "<tr>";
+                            echo "<td>Temperatura més alta de l'any actual:</td>";
+                            echo "<td>" . $resultats['temperatura'] . "</td>";
+                            echo "</tr>";
+                        }
+                        $preparacio = $connexio ->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE year(data) = year(Now());');
+                        $preparacio->execute();
+                        echo "<table>";
+                        while ($resultats = $preparacio ->fetch()){
+                            echo "<tr>";
+                            echo "<td>Temperatura més baixa de l'any actual:</td>";
+                            echo "<td>" . $resultats['temperatura'] . "</td>";
+                            echo "</tr>";
+                        }
+                    }
                     include 'database/connexio.php';
                     if (isset($_POST["darrera_temp"])) {
                         ultimaTemperatura();
                     }
                     elseif (isset($_POST["darrera_hum"])) {
                         ultimaHumitat();
+                    }
+                    elseif (isset($_POST["max_min_temp_avui"])) {
+                        temperaturaDiaActual();
+                    }
+                    elseif (isset($_POST["mitjana_hum"])) {
+                        mitjaHumitatDiaActual();
+                    }
+                    elseif (isset($_POST["max_min_temp_any"])) {
+                        temperaturaAltaIBaixaAny();
+                    }
+                    elseif (isset($_POST["tot"])) {
+                        header("Location: http://localhost/project-web-php/grafic.php");
+                        exit;
+                    }
+?>
                     }
                 ?>
                 </div>

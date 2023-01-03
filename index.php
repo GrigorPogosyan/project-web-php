@@ -32,7 +32,10 @@
                             <button type="submit" class="btn btn-primary w-100" name="mitjana_hum">La Humitat relativa mitjana del dia actual</button>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="max_min_temp_any"> Temperatura més alta i més baixa registrada a l’any actual</button>
+                            <button type="submit" class="btn btn-primary w-100" name="max_min_temp_any">Temperatura més alta i més baixa registrada a l’any actual</button>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary w-100" name="tot">Totes les dades (Grafic)</button>
                         </div>
                 </from>
                 </div>
