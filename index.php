@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Dades</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -17,23 +17,24 @@
         <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
             <div class="m-5 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
                 <div class="pt-2 pb-2 pl-3 pr-3">
-                    <p class="h1 text-center">Login</p>
-                    <br>
-                    <form class="w-100" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="action" value="login">
+                <form class="w-100" method="POST" action="mostrar_dades.php">
+                <h3>Que vols veure?</h3>
                         <div class="form-group">
-                            <label for="userinput">Usuario</label>
-                            <input name="userinput" type="text" class="form-control" id="userinput" placeholder="Escribe tu usuario">
+                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="darrera_temp">Darrera temperatura registrada</button>
                         </div>
                         <div class="form-group">
-                            <label for="passinput">Password</label>
-                            <input name="passinput" type="password" class="form-control" id="passinput" placeholder="Password">
+                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="darrera_hum">Darrera humitat de l’aire registrada</button>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
-                        <div class="pt-3">
-                            <small class="s-1">No estás registrado? <span id="href-signup" class="text-primary">Crear una cuenta</span></small>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="max_min_temp_avui">Temperatura més alta i més baixa registrada al dia actual</button>
                         </div>
-                    </form>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="mitjana_hum">La Humitat relativa mitjana del dia actual</button>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="max_min_temp_any"> Temperatura més alta i més baixa registrada a l’any actual</button>
+                        </div>
+                </from>
                 </div>
             </div>
         </div>
