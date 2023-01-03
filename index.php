@@ -18,7 +18,7 @@
             <div class="m-5 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
                 <div class="pt-2 pb-2 pl-3 pr-3">
                 <form class="w-100" method="POST" action="mostrar_dades.php">
-                <h3>Que vols veure?</h3>
+                <h3>Menú d'Opcions</h3>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary w-100" name="darrera_temp">Darrera temperatura registrada</button>
                         </div>

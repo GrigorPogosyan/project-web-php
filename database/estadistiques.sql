@@ -9,10 +9,8 @@ USE estadistiques;
 
 CREATE TABLE dades (
 	data DATETIME,
-	mitjana_humitat FLOAT(3,2),
-	temperatura FLOAT(5,2),
-    
-    CONSTRAINT pk_dades PRIMARY KEY (data)
+	mitjana_humitat FLOAT(5,2),
+	temperatura FLOAT(5,2)
 );
 
 CREATE TABLE usuaris (
@@ -22,7 +20,7 @@ CREATE TABLE usuaris (
     CONSTRAINT pk_usuaris PRIMARY KEY (nom)
 );
 
-# CREACIÓ D'USUARI 
+# CREACIÓ D'USUARI PER ACCEDIR A LA BD
 DROP USER IF EXISTS 'user'@'localhost' ;
 CREATE USER 'user'@'localhost' IDENTIFIED BY 'aplicacions';
 
@@ -30,14 +28,35 @@ CREATE USER 'user'@'localhost' IDENTIFIED BY 'aplicacions';
 GRANT ALL PRIVILEGES ON estadistiques.* TO 'user'@'localhost';
 #repair table mysql.db use_frm;
 
-#Inserts de Prova
+#INSERTS DE PROVA
 INSERT INTO dades (mitjana_humitat,temperatura,data)
-VALUES (50,18,'2023-1-12'),
-    (60,17,'2023-1-13'),
-    (80,16,'2023-1-14'),
-    (70,18,'2023-2-12'),
-    (50,22,'2023-2-13'),
-    (40,21,'2023-2-14'),
-    (70,19,'2023-3-12'),
-    (40,22,'2023-3-13'),
-    (35,25,'2023-3-14');
+VALUES (50,12,'2022-12-12'),
+    (60,13,'2022-12-13'),
+    (76,14,'2022-01-01'),
+    (80,12,'2022-01-07'),
+    (57,16,'2022-01-15'),
+    (77,15,'2022-02-03'),
+    (76,14,'2022-02-17'),
+    (39,17,'2022-03-04'),
+    (36,18,'2022-03-25'),
+    (30,18,'2022-04-09'),
+    (43,19,'2022-04-13'),
+    (30,22,'2022-05-02'),
+    (33,20,'2022-05-17'),
+    (40,22,'2022-06-07'),
+    (34,21,'2022-06-16'),
+    (30,24,'2022-07-22'),
+    (37,27,'2022-07-25'),
+    (36,29,'2022-08-03'),
+    (40,26,'2022-08-22'),
+    (43,24,'2022-09-23'),
+    (36,23,'2022-09-29'),
+    (49,19,'2022-10-12'),
+    (46,17,'2022-10-19'),
+    (67,14,'2022-11-01'),
+    (76,15,'2022-11-25'),
+    (34,5,'2023-01-03'),
+    (45,30,'2023-01-03');
+    
+#USUARIS PER FER LOGIN
+INSERT INTO usuaris (nom, password) VALUES ("Grigor","$2y$10$kM4wglgu0f9U89qv9wvTqeg.Ad.ULWOQyuas52wKzGYJf8KZue1hq");
