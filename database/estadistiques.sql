@@ -1,5 +1,5 @@
 -- SCRIPT GENERAR LA BASE DE DADES ESTADÍSTIQUES
--- 
+--
 -- IMPLANTACIÓ D'APLICACIONS WEB // PHP
 
 DROP DATABASE IF EXISTS estadistiques;
@@ -15,12 +15,10 @@ CREATE TABLE dades (
 
 CREATE TABLE usuaris (
 	nom VARCHAR(30),
-    password VARCHAR(255),
-    
-    CONSTRAINT pk_usuaris PRIMARY KEY (nom)
+    password VARCHAR(255)
 );
 
-# CREACIÓ D'USUARI PER ACCEDIR A LA BD
+# CREACIÓ D'USUARI
 DROP USER IF EXISTS 'user'@'localhost' ;
 CREATE USER 'user'@'localhost' IDENTIFIED BY 'aplicacions';
 
