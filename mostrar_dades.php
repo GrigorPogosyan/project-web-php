@@ -117,8 +117,6 @@
                         header("Location: http://localhost/project-web-php/grafic.php");
                         exit;
                     }
-?>
-                    }
                 ?>
                 </div>
             </div>
