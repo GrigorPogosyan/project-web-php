@@ -18,33 +18,36 @@
             <div class="m-5 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
                 <div class="pt-2 pb-2 pl-3 pr-3">
                 <?php
-                    include 'connexio.php';
-                    if ($_POST["resposta"]="darrera_temp") {
-                        function ultimaTemperatura() {
-                            include 'connexio.php';
-                            $preparacio = $connexio ->prepare('SELECT * FROM dades ORDER BY data DESC LIMIT 1;');
-                            $preparacio->execute();
-                            echo "<table>";
-                            while ($resultats = $preparacio ->fetch()){
-                                echo "<tr>";
-                                echo "<td>Darrera temperatura registrada</td>";
-                                echo "<td>" . $resultats['temperatura'] . "</td>";
-                                echo "</tr>";
-                            }
+                    function ultimaTemperatura() {
+                        include 'database/connexio.php';
+                        $preparacio = $connexio ->prepare('SELECT * FROM dades ORDER BY data DESC LIMIT 1;');
+                        $preparacio->execute();
+                        echo "<table>";
+                        while ($resultats = $preparacio ->fetch()){
+                            echo "<tr>";
+                            echo "<td>Darrera temperatura registrada</td>";
+                            echo "<td>" . $resultats['temperatura'] . "</td>";
+                            echo "</tr>";
                         }
                     }
-                    elseif ($_POST["resposta"]="darrera_hum") {
-                        function ultimaHumitat() {
-                            $preparacio = $connexio ->prepare('SELECT * FROM dades ORDER BY data DESC LIMIT 1;');
-                            $preparacio->execute();
-                            echo "<table>";
-                            while ($resultats = $preparacio ->fetch()){
-                                echo "<tr>";
-                                echo "<td>Darrera humitat de l’aire registrada</td>";
-                                echo "<td>" . $resultats['mitjana_humitat'] . "</td>";
-                                echo "</tr>";
-                            }
+                    function ultimaHumitat() {
+                        include 'database/connexio.php';
+                        $preparacio = $connexio ->prepare('SELECT * FROM dades ORDER BY data DESC LIMIT 1;');
+                        $preparacio->execute();
+                        echo "<table>";
+                        while ($resultats = $preparacio ->fetch()){
+                            echo "<tr>";
+                            echo "<td>Darrera humitat de l’aire registrada</td>";
+                            echo "<td>" . $resultats['mitjana_humitat'] . "</td>";
+                            echo "</tr>";
                         }
+                    }
+                    include 'database/connexio.php';
+                    if (isset($_POST["darrera_temp"])) {
+                        ultimaTemperatura();
+                    }
+                    elseif (isset($_POST["darrera_hum"])) {
+                        ultimaHumitat();
                     }
                 ?>
                 </div>

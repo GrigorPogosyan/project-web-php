@@ -20,19 +20,19 @@
                 <form class="w-100" method="POST" action="mostrar_dades.php">
                 <h3>Que vols veure?</h3>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="darrera_temp">Darrera temperatura registrada</button>
+                            <button type="submit" class="btn btn-primary w-100" name="darrera_temp">Darrera temperatura registrada</button>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="darrera_hum">Darrera humitat de l’aire registrada</button>
+                            <button type="submit" class="btn btn-primary w-100" name="darrera_hum">Darrera humitat de l’aire registrada</button>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="max_min_temp_avui">Temperatura més alta i més baixa registrada al dia actual</button>
+                            <button type="submit" class="btn btn-primary w-100" name="max_min_temp_avui">Temperatura més alta i més baixa registrada al dia actual</button>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="mitjana_hum">La Humitat relativa mitjana del dia actual</button>
+                            <button type="submit" class="btn btn-primary w-100" name="mitjana_hum">La Humitat relativa mitjana del dia actual</button>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="resposta" value="max_min_temp_any"> Temperatura més alta i més baixa registrada a l’any actual</button>
+                            <button type="submit" class="btn btn-primary w-100" name="max_min_temp_any"> Temperatura més alta i més baixa registrada a l’any actual</button>
                         </div>
                 </from>
                 </div>
