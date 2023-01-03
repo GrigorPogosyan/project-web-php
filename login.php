@@ -89,6 +89,7 @@ if (isset($_POST['login-submit'])) {
             <?php if (isset($_SESSION['status-login']) && $_SESSION['status-login'] = "error")
             {
                 mostrarAlerta("danger","Usuari i contrasenya incorrectes");
+                unset($_SESSION['status-login']);
             }
             ?>
         </div>

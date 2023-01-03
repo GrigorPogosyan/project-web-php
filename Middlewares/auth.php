@@ -3,7 +3,9 @@ include "functions/redirigirPagina.php";
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 if (isset($_SESSION['user']) &&  $_SESSION['status-login'] = "correct"){
-    if (getLastSlug() != "index.php"){
+    #Si no fem exclusions i estem a index.php i accedim als botons no ens deixarà
+    $exclusions = ["grafic.php","mostrar_dades.php"];
+    if (getLastSlug() != "index.php" && (!in_array(getLastSlug(),$exclusions))){
         redirigirPagina("index.php");
     }
 }
