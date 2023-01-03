@@ -77,11 +77,11 @@ if (isset($_POST['login-submit'])) {
                         </div>
                         <div class="form-group">
                             <label for="passinput">Contrasenya</label>
-                            <input name="passinput" type="password" class="form-control" id="passinput" placeholder="Password">
+                            <input name="passinput" type="password" class="form-control" id="passinput" placeholder="Escriu la teva contrasenya">
                         </div>
                         <button type="submit" name="login-submit" class="btn btn-primary w-100">Entrar</button>
                         <div class="pt-3">
-                            <small class="s-1">No estás registrado? <span id="href-signup" class="text-primary">Crear una cuenta</span></small>
+                            <small class="s-1">No estás registrat? <span id="href-signup" class="text-primary bold">Crear un compte</span></small>
                         </div>
                     </form>
                 </div>

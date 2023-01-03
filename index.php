@@ -28,7 +28,7 @@ if (isset($_POST['tancar-sessio'])){
     <div class="m-auto d-flex justify-content-between p-3 bg-transparent-light">
                 <h2>Benvingut <?php echo ($_SESSION["user"]) ?></h2>
                 <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                    <button type="submit" name="tancar-sessio" class="btn btn-danger ml-0">Cerrar Sesion</button>
+                    <button type="submit" name="tancar-sessio" class="btn btn-danger ml-0">Tancar Sessió</button>
                 </form>
             </div>
     
@@ -39,7 +39,7 @@ if (isset($_POST['tancar-sessio'])){
                 <div class="pt-2 pb-2 pl-3 pr-3">
 
                     <form class="w-100" method="POST" action="mostrar_dades.php">
-                        <h3>Menú d'Opcions</h3>
+                        <h3 class="text-center p-3">Menú d'Opcions</h3>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary w-100" name="darrera_temp">Darrera temperatura registrada</button>
                         </div>
