@@ -1,4 +1,5 @@
 <?php
+include "Middlewares/auth.php";
 #FUNCIÓ ALERTA QUE ENS SERVIRÀ PER MOSTRAR ALERTES
 function mostrarAlerta($tipusAlerta, $textAlerta)
 {
@@ -29,7 +30,7 @@ function loginAction()
     $user = $connexio->query($sqlSentence)->fetchObject();
     if ($user and password_verify($_POST['passinput'], $user->password)) {
         $_SESSION['user'] = $formUser;
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) session_start();
         $_SESSION['status-login'] = "correct";
         header("Location:./index.php");
     }

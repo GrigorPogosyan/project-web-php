@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <?php
+include "Middlewares/auth.php";
 function mostrarTot() {
         $dades = [];
         $temperatura = [];
