@@ -1,5 +1,5 @@
 -- SCRIPT GENERAR LA BASE DE DADES ESTADÍSTIQUES
--- 
+--
 -- IMPLANTACIÓ D'APLICACIONS WEB // PHP
 
 DROP DATABASE IF EXISTS estadistiques;
@@ -11,18 +11,16 @@ CREATE TABLE dades (
 	data DATETIME,
 	mitjana_humitat FLOAT(3,2),
 	temperatura FLOAT(5,2),
-    
     CONSTRAINT pk_dades PRIMARY KEY (data)
 );
 
 CREATE TABLE usuaris (
 	nom VARCHAR(30),
     password VARCHAR(255),
-    
     CONSTRAINT pk_usuaris PRIMARY KEY (nom)
 );
 
-# CREACIÓ D'USUARI 
+# CREACIÓ D'USUARI
 DROP USER IF EXISTS 'user'@'localhost' ;
 CREATE USER 'user'@'localhost' IDENTIFIED BY 'aplicacions';
 
