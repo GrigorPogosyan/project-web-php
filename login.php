@@ -1,10 +1,10 @@
 <?php
 include "Middlewares/auth.php";
 #FUNCIÓ ALERTA QUE ENS SERVIRÀ PER MOSTRAR ALERTES
-function mostrarAlerta($tipusAlerta, $textAlerta)
+function mostrarAlerta($tipusAlerta, $textAlerta, $width=NULL)  #width optional parameter
 {
     echo "
-    <div class='alert alert-$tipusAlerta mt-3 w-50 fade-in-div' role='alert'>
+    <div class='alert alert-$tipusAlerta $width mt-3 fade-in-div' role='alert'>
         $textAlerta
     </div>";
 }
@@ -33,8 +33,7 @@ function loginAction()
         if (session_status() === PHP_SESSION_NONE) session_start();
         $_SESSION['status-login'] = "correct";
         header("Location:./index.php");
-    }
-    else {
+    } else {
         $_SESSION['status-login'] = "error";
     }
 }
@@ -65,33 +64,33 @@ if (isset($_POST['login-submit'])) {
     <div id="particles-js"></div>
     <div class="first-container">
         <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
-            <div class="m-5 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
-                <div class="pt-2 pb-2 pl-3 pr-3">
+        <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
+            <div class="m-5 form-container border border-white pt-4 pb-4 pl-3 pr-3 bg-transparent-light w-50">
+                <div class="p-4 w-100">
                     <p class="h1 text-center">Login</p>
                     <br>
-                    <form class="w-100" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="action" value="login">
-                        <div class="form-group">
+                    <form class="w-100 d-flex flex-column justify-content-center align-items-center margin-auto" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                        <div class="form-group w-75">
                             <label for="userinput">Usuari</label>
                             <input name="userinput" type="text" class="form-control" id="userinput" placeholder="Escriu el teu usuari">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group w-75">
                             <label for="passinput">Contrasenya</label>
                             <input name="passinput" type="password" class="form-control" id="passinput" placeholder="Escriu la teva contrasenya">
                         </div>
-                        <button type="submit" name="login-submit" class="btn btn-primary w-100">Entrar</button>
+                        <button type="submit" name="login-submit" class="btn btn-primary w-75 mt-2">Entrar</button>
                         <div class="pt-3">
-                            <small class="s-1">No estás registrat? <span id="href-signup" class="text-primary bold">Crear un compte</span></small>
+                            <small class="s-1">No estás registrat? <a href="register.php"><span id="href-signup" class="text-primary"><u>Crear un compte</u></span></small></a>
                         </div>
                     </form>
                 </div>
             </div>
-            <?php if (isset($_SESSION['status-login']) && $_SESSION['status-login'] = "error")
-            {
-                mostrarAlerta("danger","Usuari i contrasenya incorrectes");
+            <?php if (isset($_SESSION['status-login']) && $_SESSION['status-login'] = "error") {
+                mostrarAlerta("danger", "Usuari i contrasenya incorrectes","w-50");
                 unset($_SESSION['status-login']);
             }
             ?>
+
         </div>
     </div>
     <script>
