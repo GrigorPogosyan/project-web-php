@@ -10,10 +10,9 @@ if (isset($_SESSION['user']) &&  $_SESSION['status-login'] = "correct"){
     }
 }
 else{
-    if (getLastSlug() != "login.php"){
+    if (getLastSlug() != "login.php" && getLastSlug() != "register.php"){
         redirigirPagina("login.php");
     }
-    
 }
 
 function getLastSlug()
