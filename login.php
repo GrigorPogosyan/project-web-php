@@ -40,7 +40,7 @@ function loginAction()
 
 
 
-#AL ENVIAR FORMULARI DE LOGIN 
+#AL ENVIAR FORMULARI DE LOGIN
 if (isset($_POST['login-submit'])) {
     include "database/connexio.php";
     loginAction();
