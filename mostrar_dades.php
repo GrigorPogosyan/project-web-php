@@ -17,8 +17,13 @@ include "Middlewares/auth.php";
 
 <body>
     <div id="particles-js"></div>
+    <div class="fixed-top">
+    <?php include "Components/nav-welcome.php" ?>
+    </div>
     <div class="first-container">
+
         <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
+            
             <div class="m-5 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
                 <div class="pt-2 pb-2 pl-3 pr-3">
                 <?php
@@ -120,6 +125,10 @@ include "Middlewares/auth.php";
                         header("Location: http://localhost/project-web-php/grafic.php");
                         exit;
                     }
+                    else{
+                        redirigirPagina("index.php");
+                    }
+
                 ?>
                 </div>
             </div>

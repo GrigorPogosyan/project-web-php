@@ -2,23 +2,58 @@
 include "Middlewares/auth.php"; #A Middlewares s'inicia sessió.
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-if (isset($_POST['tancar-sessio'])) {
-    session_regenerate_id();
-    session_destroy();
-    $_SESSION = [];
-    redirigirPagina("login.php");
-}
-
-function mitjaHumitatDiaActual() {
+function mitjaHumitatDiaActual()
+{
     include 'database/connexio.php';
-    $preparacio = $connexio ->prepare('SELECT AVG(mitjana_humitat) as mitjana_humitat FROM dades WHERE data = cast(Date(Now()) as Date);');
+    $preparacio = $connexio->prepare('SELECT AVG(mitjana_humitat) as mitjana_humitat FROM dades WHERE data = cast(Date(Now()) as Date);');
     $preparacio->execute();
-    $resultats = $preparacio ->fetchall();
+    $resultats = $preparacio->fetchall();
     if ($resultats[0]['mitjana_humitat'] == "") {
-        $resultats[0]['mitjana_humitat'] = "-";
+        $resultats[0]['mitjana_humitat'] = "No hi ha dades disponibles";
     }
     return $resultats[0]['mitjana_humitat'];
 }
+
+function temperaturaAltaIBaixaAny()
+{
+    include 'database/connexio.php';
+    $preparacio = $connexio->prepare('SELECT MAX(temperatura) as temperatura FROM dades WHERE year(data) = year(Now());');
+    $preparacio->execute();
+    $resultats = $preparacio->fetchall();
+
+    $mesalta = $resultats[0]['temperatura'];
+
+
+    $preparacio = $connexio->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE year(data) = year(Now());');
+    $preparacio->execute();
+    $resultats = $preparacio->fetchall();
+
+    $mesbaixa = $resultats[0]['temperatura'];
+
+    $array = array($mesalta, $mesbaixa);
+    return $array;
+}
+
+function temperaturaDiaActual () {
+    include 'database/connexio.php';
+    $preparacio = $connexio ->prepare('SELECT MAX(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
+    $preparacio->execute();
+    $resultats = $preparacio ->fetchall();
+
+    $mesalta = $resultats[0]['temperatura'];
+
+
+    $preparacio = $connexio ->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
+    $preparacio->execute();
+
+    $preparacio->execute();
+    $resultats = $preparacio ->fetchall();
+
+    $mesbaixa = $resultats[0]['temperatura'];
+
+    $array = array($mesalta,$mesbaixa);
+    return $array;
+    }
 
 ?>
 <!DOCTYPE html>
@@ -37,14 +72,7 @@ function mitjaHumitatDiaActual() {
 <body>
     <div id="particles-js"></div>
     <div class="index-page-container">
-        <div class="m-auto d-flex justify-content-between p-3 bg-transparent-light">
-            <h2>Benvingut <?php echo ($_SESSION["user"]) ?></h2>
-            <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                <button type="submit" name="tancar-sessio" class="btn btn-danger ml-0">Tancar Sessió</button>
-            </form>
-        </div>
-
-
+        <?php include "Components/nav-welcome.php"; ?>
         <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
 
             <div class="form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
@@ -66,12 +94,12 @@ function mitjaHumitatDiaActual() {
                 </div>
             </div>
 
-            <div class="mt-5 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
+            <div class="mt-5 form-container border border-white p-4 bg-transparent-light">
                 <div class="pt-2 pb-2 pl-3 pr-3">
                     <div class="d-flex flex-column">
                         <form class="w-100" method="POST" action="mostrar_dades.php">
                             <h3 class="text-center p-3">Dades Actuals</h3>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered text-center table-blue">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -83,17 +111,17 @@ function mitjaHumitatDiaActual() {
                                 <tbody>
                                     <tr>
                                         <th scope="row">+</th>
-                                        <td><?php ?></td>
-                                        <td rowspan="2"><?php echo mitjaHumitatDiaActual() ?></td>
-                                        <td><?php ?></td>
+                                        <td><?php echo(TemperaturaDiaActual())[0] . "°C";?></td>
+                                        <td rowspan="2" class="text-mitjana-humitat"><?php echo mitjaHumitatDiaActual() . "%" ?></td>
+                                        <td><?php echo(TemperaturaAltaIBaixaAny())[0] . "°C";?></td>
                                     </tr>
                                     <tr>
                                         <th scope="row">-</th>
-                                        <td><?php ?></td>
-                                        <td><?php ?></td>
+                                        <td><?php echo(TemperaturaDiaActual())[1] . "°C";?></td>
+                                        <td><?php echo(TemperaturaAltaIBaixaAny())[1] . "°C";?></td>
                                     </tr>
                                 </tbody>
-                                </table>
+                            </table>
                         </form>
                     </div>
                 </div>

@@ -31,6 +31,13 @@ html, body{
 	position: relative !important; 
 	font-size: larger;
 }
+.grafic-page-container{
+	width: 100% !important;
+	min-height: 100vh !important;
+	height: 100% !important;
+	position: relative !important; 
+	font-size: larger;
+}
 
 .bg-transparent-light{
 	background-color: #f8f9fa66 !important;
@@ -75,4 +82,26 @@ html, body{
 
 .form-container{
 	border-radius: 3% !important;
+}
+
+.grafic-js{
+	background-color: #c8dbc8;
+}
+
+.text-mitjana-humitat{
+	padding-top:4% !important;
+}
+
+.hashtag-column-table{
+	padding-bottom: 3% !important;
+	vertical-align: inherit;
+	vertical-align: middle !important;
+}
+
+.table{
+	background-color: #03515ca3 !important;
+}
+
+.table thead th{ 
+	vertical-align: middle !important;
 }
