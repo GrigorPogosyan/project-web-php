@@ -8,9 +8,9 @@ CREATE DATABASE estadistiques;
 USE estadistiques;
 
 CREATE TABLE dades (
-	data DATETIME,
-	mitjana_humitat FLOAT(5,2),
-	temperatura FLOAT(5,2)
+	data DATETIME NOT NULL,
+	mitjana_humitat FLOAT(5,2) NOT NULL,
+	temperatura FLOAT(5,2) NOT NULL
 );
 
 CREATE TABLE usuaris (

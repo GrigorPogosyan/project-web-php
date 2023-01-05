@@ -105,3 +105,19 @@ html, body{
 .table thead th{ 
 	vertical-align: middle !important;
 }
+
+.grafic-page-container{
+	width: 100% !important;
+	min-height: 100vh !important;
+	height: 100% !important;
+	position: relative !important; 
+	font-size: larger;
+}
+
+.center-grafic{
+	margin-top:1%;
+}
+
+.return-button{
+	margin:0,auto;
+}

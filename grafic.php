@@ -11,7 +11,7 @@ function mostrarTot()
     $mesos = [];
     include 'database/connexio.php';
     $canviarIdiomaSelectCatala = $connexio->prepare("SET lc_time_names = 'ca_ES';");
-    $canviarIdiomaSelectCatala ->execute();
+    $canviarIdiomaSelectCatala->execute();
     $preparacio = $connexio->prepare('SELECT AVG(temperatura) as temperatura,AVG(mitjana_humitat) as humitat, monthname(data) as mes FROM dades GROUP BY month(data) ORDER BY data;');
     $preparacio->execute();
     while ($resultats = $preparacio->fetch()) {
@@ -44,52 +44,60 @@ $mesos = $dades[2];
     <div id="particles-js"></div>
     <div class="grafic-page-container">
         <?php include "Components/nav-welcome.php" ?>
-        <div class="grafic-js w-50 mx-auto form-container ">
-            <div class="form-container border border-white d-flex justify-content-center align-items-center text-center mx-auto">
-                <canvas id="grafica"></canvas>
-                <script type="text/javascript">
-                    // Obtener una referencia al elemento canvas del DOM
-                    const $grafica = document.querySelector("#grafica");
-                    // Pasaamos las etiquetas desde PHP
-                    const mesos = <?php echo json_encode($mesos) ?>;
-                    // Podemos tener varios conjuntos de datos. Comencemos con uno
-                    const humitat = {
-                        label: "Humitat",
-                        // Pasar los datos igualmente desde PHP
-                        data: <?php echo json_encode($humitat) ?>,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
-                        borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
-                        borderWidth: 1, // Ancho del borde
-                    };
-                    const temperatura = {
-                        label: "Temperatura",
-                        // Pasar los datos igualmente desde PHP
-                        data: <?php echo json_encode($temperatura) ?>,
-                        backgroundColor: 'rgba(154, 62, 135, 0.2)', // Color de fondo
-                        borderColor: 'rgba(154, 62, 135, 1)', // Color del borde
-                        borderWidth: 1, // Ancho del borde
-                    };
-                    new Chart($grafica, {
-                        type: 'line', // Tipo de gráfica
-                        data: {
-                            labels: mesos,
-                            datasets: [
-                                humitat,
-                                temperatura
-                                // Aquí más datos...
-                            ]
-                        },
-                        options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
-                                }],
+        <div class="center-grafic">
+            <h3 class="text-center pb-3">Gràfic Mitjana Mensual</h3>
+            <div class="grafic-js w-75 mx-auto form-container">
+                <div class="form-container border border-white">
+                    <canvas id="grafica"></canvas>
+                    <script type="text/javascript">
+                        // Obtener una referencia al elemento canvas del DOM
+                        const $grafica = document.querySelector("#grafica");
+                        // Pasaamos las etiquetas desde PHP
+                        const mesos = <?php echo json_encode($mesos) ?>;
+                        // Podemos tener varios conjuntos de datos. Comencemos con uno
+                        const humitat = {
+                            label: "Humitat",
+                            // Pasar los datos igualmente desde PHP
+                            data: <?php echo json_encode($humitat) ?>,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
+                            borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
+                            borderWidth: 1, // Ancho del borde
+                        };
+                        const temperatura = {
+                            label: "Temperatura",
+                            // Pasar los datos igualmente desde PHP
+                            data: <?php echo json_encode($temperatura) ?>,
+                            backgroundColor: 'rgba(154, 62, 135, 0.2)', // Color de fondo
+                            borderColor: 'rgba(154, 62, 135, 1)', // Color del borde
+                            borderWidth: 1, // Ancho del borde
+                        };
+                        new Chart($grafica, {
+                            type: 'line', // Tipo de gráfica
+                            data: {
+                                labels: mesos,
+                                datasets: [
+                                    humitat,
+                                    temperatura
+                                    // Aquí más datos...
+                                ]
                             },
-                        }
-                    });
-                </script>
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }],
+                                },
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="pt-3 mb-3">
+            <div class="text-center">
+                <a href="index.php"><button type="button" class="btn btn-primary">Tornar al menú</button></a>
+            </div>
             </div>
             <script src="js/particles.js"></script>
             <script src="js/particulas.js"></script>

@@ -1,5 +1,6 @@
 <?php
 include "Middlewares/auth.php"; #A Middlewares s'inicia sessió.
+include "functions/mostrarAlerta.php";
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 function mitjaHumitatDiaActual()
@@ -8,10 +9,12 @@ function mitjaHumitatDiaActual()
     $preparacio = $connexio->prepare('SELECT AVG(mitjana_humitat) as mitjana_humitat FROM dades WHERE data = cast(Date(Now()) as Date);');
     $preparacio->execute();
     $resultats = $preparacio->fetchall();
-    if ($resultats[0]['mitjana_humitat'] == "") {
-        $resultats[0]['mitjana_humitat'] = "No hi ha dades disponibles";
+    if (isset($resultats[0]['mitjana_humitat'])){
+        return round($resultats[0]['mitjana_humitat'],2)."%";
     }
-    return $resultats[0]['mitjana_humitat'];
+    else{
+        return "-";
+    }
 }
 
 function temperaturaAltaIBaixaAny()
@@ -21,40 +24,82 @@ function temperaturaAltaIBaixaAny()
     $preparacio->execute();
     $resultats = $preparacio->fetchall();
 
-    $mesalta = $resultats[0]['temperatura'];
-
-
+    if (isset($resultats[0]['temperatura'])){
+        $mesalta = $resultats[0]['temperatura'];
+    }
+    else{
+        $mesalta = "-";
+    }
+    
     $preparacio = $connexio->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE year(data) = year(Now());');
     $preparacio->execute();
     $resultats = $preparacio->fetchall();
 
-    $mesbaixa = $resultats[0]['temperatura'];
+    if (isset($resultats[0]['temperatura'])){
+        $mesbaixa = $resultats[0]['temperatura'];
+    }
+    else{
+        $mesbaixa = "-";
+    }
 
     $array = array($mesalta, $mesbaixa);
     return $array;
 }
 
-function temperaturaDiaActual () {
+function temperaturaDiaActual()
+{
     include 'database/connexio.php';
-    $preparacio = $connexio ->prepare('SELECT MAX(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
+    $preparacio = $connexio->prepare('SELECT MAX(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
     $preparacio->execute();
-    $resultats = $preparacio ->fetchall();
+    $resultats = $preparacio->fetchall();
+    
+    if (isset($resultats[0]['temperatura'])){
+        $mesalta = $resultats[0]['temperatura'];
+    }
+    else{
+        $mesalta = "-";
+    }
+    
 
-    $mesalta = $resultats[0]['temperatura'];
-
-
-    $preparacio = $connexio ->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
+    $preparacio = $connexio->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
     $preparacio->execute();
 
     $preparacio->execute();
-    $resultats = $preparacio ->fetchall();
+    $resultats = $preparacio->fetchall();
 
-    $mesbaixa = $resultats[0]['temperatura'];
-
-    $array = array($mesalta,$mesbaixa);
-    return $array;
+    if (isset($resultats[0]['temperatura'])){
+        $mesbaixa = $resultats[0]['temperatura'];
+    }
+    else{
+        $mesbaixa = "-";
     }
 
+    $array = array($mesalta, $mesbaixa);
+    return $array;
+}
+
+function ultimaTemperatura()
+{
+    include 'database/connexio.php';
+    $preparacio = $connexio->prepare('SELECT * FROM dades ORDER BY data DESC LIMIT 1;');
+    $preparacio->execute();
+    if ($preparacio->rowCount() > 0) {
+        $resultats = $preparacio->fetchall();
+        return $resultats[0]['temperatura'];
+    }
+    return NULL;
+}
+function ultimaHumitat()
+{
+    include 'database/connexio.php';
+    $preparacio = $connexio->prepare('SELECT * FROM dades ORDER BY data DESC LIMIT 1;');
+    $preparacio->execute();
+    if ($preparacio->rowCount() > 0) {
+        $resultats = $preparacio->fetchall();
+        return $resultats[0]['mitjana_humitat'];
+    }
+    return NULL;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -78,7 +123,7 @@ function temperaturaDiaActual () {
             <div class="form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
                 <div class="pt-2 pb-2 pl-3 pr-3">
                     <div class="d-flex flex-column">
-                        <form class="w-100" method="POST" action="mostrar_dades.php">
+                        <form class="w-100" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                             <h3 class="text-center p-3">Menú d'Opcions</h3>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary w-100" name="darrera_temp">Darrera temperatura registrada</button>
@@ -87,19 +132,43 @@ function temperaturaDiaActual () {
                                 <button type="submit" class="btn btn-primary w-100" name="darrera_hum">Darrera humitat de l’aire registrada</button>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary w-100" name="tot">Totes les dades (Grafic)</button>
+                                <button type="submit" class="btn btn-primary w-100" name="tot">Mitjana Mensual (Gràfic)</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-5 form-container border border-white p-4 bg-transparent-light">
+            <?php
+            include 'database/connexio.php';
+            $existeixDada = false;
+            if (isset($_POST["darrera_temp"])) {
+                $ultimaTemperatura = ultimaTemperatura();
+                if ($ultimaTemperatura == "") {
+                    $existeixDada = true;
+                } else {
+                    mostrarAlerta("success", "Última Temperatura: $ultimaTemperatura" . "°C");
+                }
+            } elseif (isset($_POST["darrera_hum"])) {
+                $ultimaHumitat = ultimaHumitat();
+                if ($ultimaHumitat == "") {
+                    $existeixDada = true;
+                } else {
+                    mostrarAlerta("success", "Última Humitat: $ultimaHumitat" . "%");
+                }
+            } elseif (isset($_POST["tot"])) {
+                redirigirPagina("grafic.php");
+            }
+            if ($existeixDada == true) {
+                mostrarAlerta("warning", "No hi ha dades disponibles");
+            }
+            ?>
+            <div class="mt-4 form-container border border-white p-4 bg-transparent-light">
                 <div class="pt-2 pb-2 pl-3 pr-3">
                     <div class="d-flex flex-column">
-                        <form class="w-100" method="POST" action="mostrar_dades.php">
+                        <form class="w-100 border-round-5" method="POST" action="mostrar_dades.php">
                             <h3 class="text-center p-3">Dades Actuals</h3>
-                            <table class="table table-bordered text-center table-blue">
+                            <table class="table table-bordered text-center table-blue border-rounded">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -110,15 +179,15 @@ function temperaturaDiaActual () {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">+</th>
-                                        <td><?php echo(TemperaturaDiaActual())[0] . "°C";?></td>
-                                        <td rowspan="2" class="text-mitjana-humitat"><?php echo mitjaHumitatDiaActual() . "%" ?></td>
-                                        <td><?php echo(TemperaturaAltaIBaixaAny())[0] . "°C";?></td>
+                                        <th scope="row">Max</th>
+                                        <td><?php echo (TemperaturaDiaActual())[0]; ?></td>
+                                        <td rowspan="2" class="text-mitjana-humitat"><?php echo mitjaHumitatDiaActual()?></td>
+                                        <td><?php echo (TemperaturaAltaIBaixaAny())[0]; ?></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">-</th>
-                                        <td><?php echo(TemperaturaDiaActual())[1] . "°C";?></td>
-                                        <td><?php echo(TemperaturaAltaIBaixaAny())[1] . "°C";?></td>
+                                        <th scope="row">Min</th>
+                                        <td><?php echo (TemperaturaDiaActual())[1]; ?></td>
+                                        <td><?php echo (TemperaturaAltaIBaixaAny())[1]; ?></td>
                                     </tr>
                                 </tbody>
                             </table>
