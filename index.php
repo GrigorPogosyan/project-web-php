@@ -8,6 +8,18 @@ if (isset($_POST['tancar-sessio'])) {
     $_SESSION = [];
     redirigirPagina("login.php");
 }
+
+function mitjaHumitatDiaActual() {
+    include 'database/connexio.php';
+    $preparacio = $connexio ->prepare('SELECT AVG(mitjana_humitat) as mitjana_humitat FROM dades WHERE data = cast(Date(Now()) as Date);');
+    $preparacio->execute();
+    $resultats = $preparacio ->fetchall();
+    if ($resultats[0]['mitjana_humitat'] == "") {
+        $resultats[0]['mitjana_humitat'] = "-";
+    }
+    return $resultats[0]['mitjana_humitat'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -47,15 +59,6 @@ if (isset($_POST['tancar-sessio'])) {
                                 <button type="submit" class="btn btn-primary w-100" name="darrera_hum">Darrera humitat de l’aire registrada</button>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary w-100" name="max_min_temp_avui">Temperatura més alta i més baixa registrada al dia actual</button>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary w-100" name="mitjana_hum">La Humitat relativa mitjana del dia actual</button>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary w-100" name="max_min_temp_any">Temperatura més alta i més baixa registrada a l’any actual</button>
-                            </div>
-                            <div class="form-group">
                                 <button type="submit" class="btn btn-primary w-100" name="tot">Totes les dades (Grafic)</button>
                             </div>
                         </form>
@@ -63,11 +66,34 @@ if (isset($_POST['tancar-sessio'])) {
                 </div>
             </div>
 
-            <div class="mt-3 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
+            <div class="mt-5 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
                 <div class="pt-2 pb-2 pl-3 pr-3">
                     <div class="d-flex flex-column">
                         <form class="w-100" method="POST" action="mostrar_dades.php">
-                            <h3 class="text-center p-3">Menú d'Opcions</h3>
+                            <h3 class="text-center p-3">Dades Actuals</h3>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Temperatura més alta i més baixa registrada al dia actual</th>
+                                        <th scope="col">La Humitat relativa mitjana del dia actual</th>
+                                        <th scope="col">Temperatura més alta i més baixa registrada a l’any actual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">+</th>
+                                        <td><?php ?></td>
+                                        <td rowspan="2"><?php echo mitjaHumitatDiaActual() ?></td>
+                                        <td><?php ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">-</th>
+                                        <td><?php ?></td>
+                                        <td><?php ?></td>
+                                    </tr>
+                                </tbody>
+                                </table>
                         </form>
                     </div>
                 </div>
