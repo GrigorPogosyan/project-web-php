@@ -2,7 +2,7 @@
 include "Middlewares/auth.php"; #A Middlewares s'inicia sessió.
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-if (isset($_POST['tancar-sessio'])){
+if (isset($_POST['tancar-sessio'])) {
     session_regenerate_id();
     session_destroy();
     $_SESSION = [];
@@ -25,40 +25,51 @@ if (isset($_POST['tancar-sessio'])){
 <body>
     <div id="particles-js"></div>
     <div class="index-page-container">
-    <div class="m-auto d-flex justify-content-between p-3 bg-transparent-light">
-                <h2>Benvingut <?php echo ($_SESSION["user"]) ?></h2>
-                <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                    <button type="submit" name="tancar-sessio" class="btn btn-danger ml-0">Tancar Sessió</button>
-                </form>
-            </div>
-    
-    
-        <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
-            
-            <div class="m-5 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
-                <div class="pt-2 pb-2 pl-3 pr-3">
+        <div class="m-auto d-flex justify-content-between p-3 bg-transparent-light">
+            <h2>Benvingut <?php echo ($_SESSION["user"]) ?></h2>
+            <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <button type="submit" name="tancar-sessio" class="btn btn-danger ml-0">Tancar Sessió</button>
+            </form>
+        </div>
 
-                    <form class="w-100" method="POST" action="mostrar_dades.php">
-                        <h3 class="text-center p-3">Menú d'Opcions</h3>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="darrera_temp">Darrera temperatura registrada</button>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="darrera_hum">Darrera humitat de l’aire registrada</button>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="max_min_temp_avui">Temperatura més alta i més baixa registrada al dia actual</button>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="mitjana_hum">La Humitat relativa mitjana del dia actual</button>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="max_min_temp_any">Temperatura més alta i més baixa registrada a l’any actual</button>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary w-100" name="tot">Totes les dades (Grafic)</button>
-                        </div>
-                        </from>
+
+        <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
+
+            <div class="form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
+                <div class="pt-2 pb-2 pl-3 pr-3">
+                    <div class="d-flex flex-column">
+                        <form class="w-100" method="POST" action="mostrar_dades.php">
+                            <h3 class="text-center p-3">Menú d'Opcions</h3>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary w-100" name="darrera_temp">Darrera temperatura registrada</button>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary w-100" name="darrera_hum">Darrera humitat de l’aire registrada</button>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary w-100" name="max_min_temp_avui">Temperatura més alta i més baixa registrada al dia actual</button>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary w-100" name="mitjana_hum">La Humitat relativa mitjana del dia actual</button>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary w-100" name="max_min_temp_any">Temperatura més alta i més baixa registrada a l’any actual</button>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary w-100" name="tot">Totes les dades (Grafic)</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3 form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
+                <div class="pt-2 pb-2 pl-3 pr-3">
+                    <div class="d-flex flex-column">
+                        <form class="w-100" method="POST" action="mostrar_dades.php">
+                            <h3 class="text-center p-3">Menú d'Opcions</h3>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
