@@ -1,11 +1,54 @@
 <?php
 include "Middlewares/auth.php";
+include "functions/mostrarAlerta.php";
 
+function checkCampsOmplerts()
+{
+    if (($_POST['userinput']) == "" || ($_POST['passinput']) == "" || ($_POST['passinput2']) == "") {
+        return False;
+    }
+    return True;
+}
 
+function contrasenyesIguals()
+{
+    if ($_POST['passinput'] == ($_POST['passinput2'])) {
+        return True;
+    }
+    return False;
+}
 
+function usuariExisteix()
+{
+    include "database/connexio.php";
+    $usuariRegistre = $_POST['userinput'];
+    $consulta = "SELECT * FROM usuaris WHERE nom = :usuariRegistre;";
+    $stmt = $connexio->prepare($consulta);
+    $stmt->execute(array(':usuariRegistre' => $usuariRegistre));
+    if ($stmt->rowCount() > 0) {
+        return True;
+    }
+    return False;
+}
+
+function registrarUsuari()
+{
+    include "database/connexio.php";
+    $usuariRegistre = $_POST['userinput'];
+    $passwordEncriptat = password_hash($_POST['passinput'], PASSWORD_BCRYPT);
+    $insert = "INSERT INTO usuaris (nom,password) VALUES (:nom, :passwordEncriptat)";
+    $stmt = $connexio->prepare($insert);
+    $stmt->execute(array(':nom' => $usuariRegistre, ':passwordEncriptat' => $passwordEncriptat));
+
+    if ($stmt->rowCount() > 0) {
+        return True;
+    }
+    return False;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 
 <head>
     <meta charset="UTF-8">
@@ -22,34 +65,72 @@ include "Middlewares/auth.php";
     <div id="particles-js"></div>
     <div class="first-container">
         <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
-        <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
-            <div class="m-5 form-container border border-white pt-4 pb-4 pl-3 pr-3 bg-transparent-light w-50">
-                <div class="p-4 w-100">
-                    <p class="h1 text-center">Registrar-se</p>
-                    <br>
-                    <form class="w-100 d-flex flex-column justify-content-center align-items-center" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <div class="form-group w-75">
-                            <label for="userinput">Usuari</label>
-                            <input name="userinput" type="text" class="form-control" id="userinput" placeholder="Escriu el teu usuari">
-                        </div>
-                        <div class="form-group w-75">
-                            <label for="passinput">Contrasenya</label>
-                            <input name="passinput" type="password" class="form-control" id="passinput" placeholder="Escriu la teva contrassenya">
-                        </div>
-                        <div class="form-group w-75">
-                            <label for="passinput">Repetir Contrasenya</label>
-                            <input name="passinput" type="password" class="form-control" id="passinput" placeholder="Repeteix la contrassenya">
-                        </div>
-                        <button type="submit" name="login-submit" class="btn btn-primary w-75 mt-2">Registrar-se</button>
-                        <div class="pt-3">
-                            <small class="s-1">Ja tens un compte? <a href="login.php"><span id="href-signup" class="text-primary"><u>Inicia Sessió</u></span></small></a>
-                        </div>
-                    </form>
+            <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
+                <div class="m-5 form-container border border-white pt-4 pb-4 pl-3 pr-3 bg-transparent-light w-50">
+                    <div class="pl-4 pt-4 pr-4 w-100">
+                        <p class="h1 text-center">Registrar-se</p>
+                        <br>
+                        <form class="w-100 d-flex flex-column justify-content-center align-items-center" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                            <div class="form-group w-75">
+                                <label for="userinput">Usuari</label>
+                                <input name="userinput" type="text" class="form-control" id="userinput" placeholder="Escriu el teu usuari">
+                            </div>
+                            <div class="form-group w-75">
+                                <label for="passinput">Contrasenya</label>
+                                <input name="passinput" type="password" class="form-control" id="passinput" placeholder="Escriu la teva contrassenya">
+                            </div>
+                            <div class="form-group w-75">
+                                <label for="passinput2">Repetir Contrasenya</label>
+                                <input name="passinput2" type="password" class="form-control" id="passinput2" placeholder="Repeteix la contrassenya">
+                            </div>
+                            <button type="submit" name="register-submit" class="btn btn-primary w-75 mt-2">Registrar-se</button>
+                            <div class="pt-3">
+                                <small class="s-1">Ja tens un compte? <a href="login.php"><span id="href-signup" class="text-primary"><u>Inicia Sessió</u></span></small></a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+                <?php
+                //Si s'envia el formulari de registre.
+                if (isset($_POST['register-submit'])) {
+
+                    //Verifiquem que tots els camps estan omplerts.
+                    if (checkCampsOmplerts()) {
+
+                        //Si tots els camps estan omplerts primer verificarem que les 2 contrasenyes son iguals.
+                        if (contrasenyesIguals()) {
+
+                            //Comprovarem si l'usuari existeix o no
+                            if (usuariExisteix()) {
+                                mostrarAlerta("danger", "Ja existeix un usuari amb aquest nom.", "w-50");
+                            } else {
+                                if (registrarUsuari()) {
+                                    mostrarAlerta("success", "Usuari registrat successivament", "w-50");
+                                }
+                            }
+                        } else {
+                            mostrarAlerta("danger", "Les contrasenyes no coincideixen", "w-50");
+                        }
+                    } else {
+                        mostrarAlerta("danger", "Tots els camps són obligatoris", "w-50");
+                    }
+                }
+                ?>
+            
             </div>
         </div>
-        </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+        /*PER SI DESPRÉS DE ENVIAR EL FORMULARI, REFRESQUEN LA PÀGINA, QUE NO ES TORNI A ENVIAR EL MATEIX FORMULARI, PER NO FER SPAM*/
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
     <script src="js/particles.js"></script>
     <script src="js/particulas.js"></script>
 </body>
