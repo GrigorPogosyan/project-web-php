@@ -2,20 +2,6 @@
 include "Middlewares/auth.php";
 include "functions/mostrarAlerta.php";
 
-#$contra = password_hash("Sox2020$",PASSWORD_BCRYPT);
-#$contra2 = password_hash("Sox2020$",PASSWORD_BCRYPT);
-#$contra = ("$2y$10\$S5KLeKrLgCmGJwNzGTUPkOT/Q2fdMzZ24uDBsUl/Hhw2iSKrCksXq");
-#$contra2 = ("$2y$10\$S5KLeKrLgCmGJwNzGTUPkOT/Q2fdMzZ24uDBsUl/Hhw2iSKrCksXq");
-#echo "<p>CONTRA 1 ->" . $contra . '</p>';
-#echo "<p>CONTRA 2 ->" . $contra2 . '</p>';
-
-#if (password_verify("Sox2020$",$contra2)){
-#    echo "CORRECTO";
-#}
-#else{
-#    echo "INCORRECTO";
-#}
-
 function loginAction()
 {
     global $connexio;
@@ -31,8 +17,6 @@ function loginAction()
         $_SESSION['status-login'] = "error";
     }
 }
-
-
 
 #AL ENVIAR FORMULARI DE LOGIN
 if (isset($_POST['login-submit'])) {

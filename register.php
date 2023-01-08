@@ -2,6 +2,14 @@
 include "Middlewares/auth.php";
 include "functions/mostrarAlerta.php";
 
+function loginAfterRegister()
+{
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    $_SESSION['user'] = $_POST['userinput'];
+    $_SESSION['status-login'] = "correct";
+    $_SESSION['register'] = "true";
+    redirigirPagina("index.php");
+}
 function checkCampsOmplerts()
 {
     if (($_POST['userinput']) == "" || ($_POST['passinput']) == "" || ($_POST['passinput2']) == "") {
@@ -93,7 +101,6 @@ function registrarUsuari()
                 <?php
                 //Si s'envia el formulari de registre.
                 if (isset($_POST['register-submit'])) {
-
                     //Verifiquem que tots els camps estan omplerts.
                     if (checkCampsOmplerts()) {
 
@@ -105,7 +112,7 @@ function registrarUsuari()
                                 mostrarAlerta("danger", "Ja existeix un usuari amb aquest nom.", "w-50");
                             } else {
                                 if (registrarUsuari()) {
-                                    mostrarAlerta("success", "Usuari registrat successivament", "w-50");
+                                    loginAfterRegister();
                                 }
                             }
                         } else {
@@ -116,7 +123,7 @@ function registrarUsuari()
                     }
                 }
                 ?>
-            
+
             </div>
         </div>
     </div>

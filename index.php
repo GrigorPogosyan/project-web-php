@@ -3,16 +3,16 @@ include "Middlewares/auth.php"; #A Middlewares s'inicia sessió.
 include "functions/mostrarAlerta.php";
 if (session_status() === PHP_SESSION_NONE) session_start();
 
+
 function mitjaHumitatDiaActual()
 {
     include 'database/connexio.php';
     $preparacio = $connexio->prepare('SELECT AVG(mitjana_humitat) as mitjana_humitat FROM dades WHERE data = cast(Date(Now()) as Date);');
     $preparacio->execute();
     $resultats = $preparacio->fetchall();
-    if (isset($resultats[0]['mitjana_humitat'])){
-        return round($resultats[0]['mitjana_humitat'],2)."%";
-    }
-    else{
+    if (isset($resultats[0]['mitjana_humitat'])) {
+        return round($resultats[0]['mitjana_humitat'], 2) . "%";
+    } else {
         return "-";
     }
 }
@@ -24,21 +24,19 @@ function temperaturaAltaIBaixaAny()
     $preparacio->execute();
     $resultats = $preparacio->fetchall();
 
-    if (isset($resultats[0]['temperatura'])){
+    if (isset($resultats[0]['temperatura'])) {
         $mesalta = $resultats[0]['temperatura'];
-    }
-    else{
+    } else {
         $mesalta = "-";
     }
-    
+
     $preparacio = $connexio->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE year(data) = year(Now());');
     $preparacio->execute();
     $resultats = $preparacio->fetchall();
 
-    if (isset($resultats[0]['temperatura'])){
+    if (isset($resultats[0]['temperatura'])) {
         $mesbaixa = $resultats[0]['temperatura'];
-    }
-    else{
+    } else {
         $mesbaixa = "-";
     }
 
@@ -52,14 +50,13 @@ function temperaturaDiaActual()
     $preparacio = $connexio->prepare('SELECT MAX(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
     $preparacio->execute();
     $resultats = $preparacio->fetchall();
-    
-    if (isset($resultats[0]['temperatura'])){
+
+    if (isset($resultats[0]['temperatura'])) {
         $mesalta = $resultats[0]['temperatura'];
-    }
-    else{
+    } else {
         $mesalta = "-";
     }
-    
+
 
     $preparacio = $connexio->prepare('SELECT MIN(temperatura) as temperatura FROM dades WHERE data = cast(Date(Now()) as Date);');
     $preparacio->execute();
@@ -67,10 +64,9 @@ function temperaturaDiaActual()
     $preparacio->execute();
     $resultats = $preparacio->fetchall();
 
-    if (isset($resultats[0]['temperatura'])){
+    if (isset($resultats[0]['temperatura'])) {
         $mesbaixa = $resultats[0]['temperatura'];
-    }
-    else{
+    } else {
         $mesbaixa = "-";
     }
 
@@ -100,6 +96,15 @@ function ultimaHumitat()
     }
     return NULL;
 }
+
+function venenDelRegistre()
+{
+    if (isset($_SESSION['register']) && $_SESSION['register'] == "true") {
+        unset ($_SESSION['register']); #Perque si reiniicem la pàgina no sempre mostri usuari registrat
+        return true;
+    }
+    return false;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -117,7 +122,17 @@ function ultimaHumitat()
 <body>
     <div id="particles-js"></div>
     <div class="index-page-container">
-        <?php include "Components/nav-welcome.php"; ?>
+
+        <?php
+        if (venenDelRegistre()) {
+            
+              echo "<div class='alert-registrat d-flex justify-content-center position-absolute'>";
+               mostrarAlerta("success", "Usuari registrat successivament", "w-50", "mt-6");
+              echo "</div>";
+        }
+        include "Components/nav-welcome.php";
+
+        ?>
         <div class="container m-auto p-5 d-flex flex-column justify-content-center align-items-center">
 
             <div class="form-container border border-white pt-4 pb-4 pl-5 pr-5 bg-transparent-light">
@@ -181,7 +196,7 @@ function ultimaHumitat()
                                     <tr>
                                         <th scope="row">Max</th>
                                         <td><?php echo (TemperaturaDiaActual())[0]; ?></td>
-                                        <td rowspan="2" class="text-mitjana-humitat"><?php echo mitjaHumitatDiaActual()?></td>
+                                        <td rowspan="2" class="text-mitjana-humitat"><?php echo mitjaHumitatDiaActual() ?></td>
                                         <td><?php echo (TemperaturaAltaIBaixaAny())[0]; ?></td>
                                     </tr>
                                     <tr>
