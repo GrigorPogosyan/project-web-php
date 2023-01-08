@@ -127,7 +127,7 @@ function venenDelRegistre()
         if (venenDelRegistre()) {
             
               echo "<div class='alert-registrat d-flex justify-content-center position-absolute'>";
-               mostrarAlerta("success", "Usuari registrat successivament", "w-50", "mt-6");
+               mostrarAlerta("success", "Usuari registrat correctament", "w-50", "mt-6");
               echo "</div>";
         }
         include "Components/nav-welcome.php";
