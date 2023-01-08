@@ -218,6 +218,7 @@ function venenDelRegistre()
             window.history.replaceState(null, null, window.location.href);
         }
     </script>
+    <?php $conn=null;?>
     <script src="js/particles.js"></script>
     <script src="js/particulas.js"></script>
 </body>

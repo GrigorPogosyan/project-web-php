@@ -127,11 +127,7 @@ function registrarUsuari()
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+    <?php $conn=null;?>
     <script>
         /*PER SI DESPRÉS DE ENVIAR EL FORMULARI, REFRESQUEN LA PÀGINA, QUE NO ES TORNI A ENVIAR EL MATEIX FORMULARI, PER NO FER SPAM*/
         if (window.history.replaceState) {

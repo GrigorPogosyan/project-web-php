@@ -71,6 +71,7 @@ if (isset($_POST['login-submit'])) {
 
         </div>
     </div>
+    <?php $conn=null;?>
     <script>
         /*PER SI DESPRÉS DE ENVIAR EL FORMULARI, REFRESQUEN LA PÀGINA, QUE NO ES TORNI A ENVIAR EL MATEIX FORMULARI, PER NO FER SPAM*/
         if (window.history.replaceState) {
