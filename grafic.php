@@ -12,6 +12,8 @@ function mostrarTot()
     include 'database/connexio.php';
     $canviarIdiomaSelectCatala = $connexio->prepare("SET lc_time_names = 'ca_ES';");
     $canviarIdiomaSelectCatala->execute();
+    #Perque sinó "Març" al fer json_encode no el fa i peta el gràfic. 
+    $connexio -> exec("set names utf8");
     $preparacio = $connexio->prepare('SELECT AVG(temperatura) as temperatura,AVG(mitjana_humitat) as humitat, monthname(data) as mes FROM dades GROUP BY month(data) ORDER BY data;');
     $preparacio->execute();
     while ($resultats = $preparacio->fetch()) {
