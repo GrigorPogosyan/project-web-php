@@ -24,7 +24,7 @@ CREATE USER 'user'@'localhost' IDENTIFIED BY 'aplicacions';
 
 #ASSIGNR L'USUARI 'USER' EN LA BASE DE DADES de Estadistiques.
 GRANT ALL PRIVILEGES ON estadistiques.* TO 'user'@'localhost';
-#repair table mysql.db use_frm;
+repair table mysql.global_priv use_frm;
 
 #INSERTS DE PROVA
 INSERT INTO dades (mitjana_humitat,temperatura,data)
@@ -54,7 +54,9 @@ VALUES (50,12,'2022-12-12'),
     (67,14,'2022-11-01'),
     (76,15,'2022-11-25'),
     (34,5,'2023-01-03'),
-    (45,30,'2023-01-03');
+    (45,30,'2023-01-03'),
+    (25,12,'2023-01-09'),
+    (33,21,'2023-01-09');
     
 #USUARIS PER FER LOGIN
 INSERT INTO usuaris (nom, password) VALUES ("Grigor","$2y$10$kM4wglgu0f9U89qv9wvTqeg.Ad.ULWOQyuas52wKzGYJf8KZue1hq");
