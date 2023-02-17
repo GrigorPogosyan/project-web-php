@@ -24,7 +24,7 @@ CREATE USER 'user'@'localhost' IDENTIFIED BY 'aplicacions';
 
 #ASSIGNR L'USUARI 'USER' EN LA BASE DE DADES de Estadistiques.
 GRANT ALL PRIVILEGES ON estadistiques.* TO 'user'@'localhost';
-repair table mysql.global_priv use_frm;
+repair table mysql.db use_frm;
 
 #INSERTS DE PROVA
 INSERT INTO dades (mitjana_humitat,temperatura,data)
